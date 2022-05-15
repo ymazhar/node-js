@@ -1,0 +1,21 @@
+{
+  "name": "js-lab",
+  "version": "1.0.0",
+  "description": "Cross-country global mentoring program related to Node.js ecosystem and related environment.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ymazhar/node-js-lab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ymazhar/node-js-lab/issues"
+  },
+  "homepage": "https://github.com/ymazhar/node-js-lab#readme",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
