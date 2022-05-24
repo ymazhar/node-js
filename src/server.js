@@ -1,8 +1,14 @@
-import express, { Application } from 'express';
-import { createUserHandler, deleteUserHandler, getAutoSuggestUsersHandler, getUserHandler, updateUserHandler } from './controllers/user.controller';
+import express from 'express';
+import {
+    createUserHandler,
+    deleteUserHandler,
+    getAutoSuggestUsersHandler,
+    getUserHandler,
+    updateUserHandler
+} from './controllers/user.controller.js';
 
-const app: Application = express();
-const PORT: number = 3000;
+const app = express();
+const PORT = 3000;
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);

@@ -1,8 +1,13 @@
-import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { createUser, deleteUser, findUser, getAutoSuggestUsers, updateUser } from '../service/user.service';
+import {
+    createUser,
+    deleteUser,
+    findUser,
+    getAutoSuggestUsers,
+    updateUser
+} from '../service/user.service.js';
 
-export async function createUserHandler(req: Request, res: Response) {
+export async function createUserHandler(req, res) {
     const userId = uuidv4();
     const body = req.body;
 
@@ -11,14 +16,14 @@ export async function createUserHandler(req: Request, res: Response) {
     res.send(user.get(userId));
 }
 
-export async function getUserHandler(req: Request, res: Response) {
+export async function getUserHandler(req, res) {
     const userId = req.params.id;
     const user = await findUser(userId);
 
     res.send(user);
 }
 
-export async function updateUserHandler(req: Request, res: Response) {
+export async function updateUserHandler(req, res) {
     const userId = req.params.id;
     const body = req.body;
     const user = await updateUser(userId, body);
@@ -26,14 +31,14 @@ export async function updateUserHandler(req: Request, res: Response) {
     res.send(user.get(userId));
 }
 
-export async function deleteUserHandler(req: Request, res: Response) {
+export async function deleteUserHandler(req, res) {
     const userId = req.params.id;
     const user = await deleteUser(userId);
 
     res.send(user.get(userId));
 }
 
-export async function getAutoSuggestUsersHandler(req: Request, res: Response) {
+export async function getAutoSuggestUsersHandler(req, res) {
     const login = req.query.login || 'admin';
     const limit = Number(req.query.limit) || 5;
 
