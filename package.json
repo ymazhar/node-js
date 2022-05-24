@@ -2,9 +2,9 @@
   "name": "js-lab",
   "version": "1.0.0",
   "description": "Cross-country global mentoring program related to Node.js ecosystem and related environment.",
-  "main": "index.js",
+  "main": " ./src/server.js",
   "scripts": {
-    "dev": "nodemon --experimental-modules --es-module-specifier-resolution=node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "repository": {

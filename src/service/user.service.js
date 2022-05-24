@@ -1,4 +1,4 @@
-import Users from '../models/user.model';
+import Users from '../models/user.model.js';
 
 export async function createUser(id, user) {
     try {
