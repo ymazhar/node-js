@@ -7,6 +7,9 @@ import {
     updateUserHandler
 } from './controllers/user.controller.js';
 
+import { userSchema } from './schema/user.schema.js';
+import { validationSchema } from './middleware/validateRequest.js';
+
 const app = express();
 const PORT = 3000;
 
@@ -18,9 +21,9 @@ app.use(express.json());
 
 app.get('/api/users/:id', getUserHandler);
 
-app.post('/api/users', createUserHandler);
+app.post('/api/users', validationSchema(userSchema), createUserHandler);
 
-app.put('/api/users/:id', updateUserHandler);
+app.put('/api/users/:id', validationSchema(userSchema), updateUserHandler);
 
 app.delete('/api/users/:id', deleteUserHandler);
 
