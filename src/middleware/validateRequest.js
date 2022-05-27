@@ -1,4 +1,4 @@
-function errorResponse(schemaErrors) {
+export function errorResponse(schemaErrors) {
     const errors = schemaErrors.map((error) => {
         const { path, message } = error;
         return { path, message };
@@ -10,9 +10,9 @@ function errorResponse(schemaErrors) {
     };
 }
 
-export function validationSchema(schema) {
+export function validationSchema(schema, property) {
     return (req, res, next) => {
-        const { error } = schema.validate(req.body, {
+        const { error } = schema.validate(req[property], {
             abortEarly: false,
             allowUnknown: false
         });

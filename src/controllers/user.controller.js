@@ -13,7 +13,11 @@ export async function createUserHandler(req, res) {
 
     const user = await createUser(userId, { id: userId, ...body });
 
-    res.send(user.get(userId));
+    if (user.status === 'failed') {
+        res.status(400).json(user);
+    } else {
+        res.send(user.get(userId));
+    }
 }
 
 export async function getUserHandler(req, res) {

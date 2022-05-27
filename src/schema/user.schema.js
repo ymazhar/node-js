@@ -10,3 +10,12 @@ export const userSchema = Joi.object({
         .max(130),
     isDeleted: Joi.bool().required()
 });
+
+export const userIdSchema = Joi.object({
+    id: Joi.string().guid()
+});
+
+export const userAutoSuggestionSchema = Joi.object({
+    limit: Joi.number().integer(),
+    login: Joi.string()
+});
