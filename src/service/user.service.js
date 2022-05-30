@@ -1,7 +1,23 @@
 import Users from '../models/user.model.js';
+import UserModel from '../models/user.model.js';
 
 export async function createUser(id, user) {
     try {
+        const isUserExist = await findUserByLogin(user.login);
+
+        if (isUserExist) {
+            return {
+                status: 'failed',
+                error: [
+                    {
+                        'path': [
+                            'login'
+                        ],
+                        'message': '"login" already exist'
+                    }
+                ]
+            };
+        }
         return Users.set(id, user);
     } catch (error) {
         throw new Error(error);
@@ -53,6 +69,22 @@ export async function findUser(id) {
             return user;
         }
         return null;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export async function findUserByLogin(login) {
+    try {
+        let isUserExist = false;
+
+        Array.from(UserModel, ([, value]) => {
+            if (value.login === login) {
+                isUserExist = true;
+            }
+        });
+
+        return isUserExist;
     } catch (error) {
         throw new Error(error);
     }
