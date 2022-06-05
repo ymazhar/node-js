@@ -1,32 +1,29 @@
-import Users from '../models/user.model.js';
 import UserModel from '../models/user.model.js';
+import { Op } from 'sequelize';
 
-export async function createUser(id, user) {
+export async function createUser(data) {
     try {
-        const isUserExist = await findUserByLogin(user.login);
+        const isUserExistInDatabase = await isUserLoginExist(data.login);
 
-        if (isUserExist) {
-            return {
-                status: 'failed',
-                error: [
-                    {
-                        'path': [
-                            'login'
-                        ],
-                        'message': '"login" already exist'
-                    }
-                ]
-            };
+        if (isUserExistInDatabase) {
+            return new Error('login already exist');
         }
-        return Users.set(id, user);
+
+        const user = await UserModel.create(data);
+
+        return user.toJSON();
     } catch (error) {
         throw new Error(error);
     }
 }
 
-export async function updateUser(id, user) {
+export async function updateUser(id, body) {
     try {
-        return Users.set(id, user);
+        const user = await UserModel.findByPk(id);
+        await user.set(body);
+        await user.save();
+
+        return user.toJSON();
     } catch (error) {
         throw new Error(error);
     }
@@ -34,9 +31,12 @@ export async function updateUser(id, user) {
 
 export async function deleteUser(id) {
     try {
-        const user = await findUser(id);
+        const user = await UserModel.findByPk(id);
 
-        return Users.set(id, { ...user, isDeleted: true });
+        await user.set('is_deleted', true);
+        await user.save();
+
+        return user.toJSON();
     } catch (error) {
         throw new Error(error);
     }
@@ -44,42 +44,46 @@ export async function deleteUser(id) {
 
 export async function getAutoSuggestUsers(login, limit) {
     try {
-        const result = [];
-        Users.forEach(user => {
-            if (!user.isDeleted && user.login.includes(login)) {
-                result.push(user);
-            }
+        const users = await UserModel.findAndCountAll({
+            where: {
+                login: {
+                    [Op.substring]: login
+                },
+                is_deleted: false
+            },
+            limit
         });
 
-        result.sort((a, b) => a.login.localeCompare(b.login));
-
-        if (result.length <= limit) {
-            return result;
-        }
-        return result.splice(0, limit);
+        return users.rows.sort((a, b) => a.login.localeCompare(b.login));
     } catch (error) {
         throw new Error(error);
     }
 }
 
-export async function findUser(id) {
+export async function getUser(id) {
     try {
-        const user = await Users.get(id);
-        if (!user.isDeleted) {
-            return user;
+        const user = await UserModel.findByPk(id);
+        const isDeleted = user.get('is_deleted');
+
+        if (!isDeleted) {
+            return user.toJSON();
         }
-        return null;
+        return {
+            error: `Cannot find a user with exist ${id} id`
+        };
     } catch (error) {
         throw new Error(error);
     }
 }
 
-export async function findUserByLogin(login) {
+export async function isUserLoginExist(login) {
     try {
         let isUserExist = false;
 
-        Array.from(UserModel, ([, value]) => {
-            if (value.login === login) {
+        const users = await UserModel.findAll();
+
+        users.forEach(user => {
+            if (user.get('login') === login) {
                 isUserExist = true;
             }
         });

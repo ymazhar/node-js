@@ -7,12 +7,11 @@ export const userSchema = Joi.object({
         .required()
         .integer()
         .min(4)
-        .max(130),
-    isDeleted: Joi.bool().required()
+        .max(130)
 });
 
 export const userIdSchema = Joi.object({
-    id: Joi.string().guid()
+    id: Joi.number().integer()
 });
 
 export const userAutoSuggestionSchema = Joi.object({

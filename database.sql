@@ -3,5 +3,5 @@ CREATE TABLE Users (
     login varchar(255),
     password varchar(255),
     age int,
-    isDeleted boolean
+    is_deleted boolean
 )
