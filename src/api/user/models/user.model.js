@@ -1,14 +1,15 @@
 import { DataTypes, Model } from 'sequelize';
 
-import db from '../data-access/db.js';
+import db from '../../../data-access/db.js';
 
 class User extends Model {}
 
 const UserModel = User.init({
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true
     },
     login: {
         type: DataTypes.STRING(255),
@@ -22,7 +23,8 @@ const UserModel = User.init({
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    is_deleted: {
+    isDeleted: {
+        field: 'is_deleted',
         type: DataTypes.BOOLEAN,
         defaultValue: false
     }

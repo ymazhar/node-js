@@ -1,12 +1,13 @@
 import { Sequelize } from 'sequelize';
+import config from '../config/index.js';
 
 const db = new Sequelize({
-    database: 'crud_db',
-    username: 'postgres',
-    password: 'password',
-    host: 'localhost',
-    dialect: 'postgres',
-    port: 5440
+    database: config.db.database,
+    username: config.db.username,
+    password: config.db.password,
+    host: config.db.host,
+    dialect: config.db.dialect,
+    port: config.db.port
 });
 
 export default db;

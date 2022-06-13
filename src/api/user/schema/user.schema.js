@@ -11,7 +11,7 @@ export const userSchema = Joi.object({
 });
 
 export const userIdSchema = Joi.object({
-    id: Joi.number().integer()
+    id: Joi.string().guid()
 });
 
 export const userAutoSuggestionSchema = Joi.object({

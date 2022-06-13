@@ -78,17 +78,9 @@ export async function getUser(id) {
 
 export async function isUserLoginExist(login) {
     try {
-        let isUserExist = false;
+        const user = await UserModel.findOne({ where: { login } });
 
-        const users = await UserModel.findAll();
-
-        users.forEach(user => {
-            if (user.get('login') === login) {
-                isUserExist = true;
-            }
-        });
-
-        return isUserExist;
+        return user !== null;
     } catch (error) {
         throw new Error(error);
     }
