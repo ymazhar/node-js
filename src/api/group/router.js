@@ -6,16 +6,18 @@ import {
     updateGroupHandler,
     deleteGroupHandler
 } from './controllers/group.controller.js';
+import { validationSchema } from '../../middleware/validateRequest.js';
+import { groupIdSchema, groupSchema } from './schema/group.schema.js';
 const groupRouter = express.Router();
 
-groupRouter.post('/', createGroupHandler);
+groupRouter.post('/', validationSchema(groupSchema, 'body'), createGroupHandler);
 
-groupRouter.put('/:id', updateGroupHandler);
+groupRouter.put('/:id', validationSchema(groupIdSchema, 'params'), updateGroupHandler);
 
-groupRouter.get('/:id', getGroupHandler);
+groupRouter.get('/:id', validationSchema(groupIdSchema, 'params'), getGroupHandler);
 
 groupRouter.get('/', getAllGroupsHandler);
 
-groupRouter.delete('/:id', deleteGroupHandler);
+groupRouter.delete('/:id', validationSchema(groupIdSchema, 'params'), deleteGroupHandler);
 
 export default groupRouter;
