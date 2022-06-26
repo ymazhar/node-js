@@ -2,16 +2,16 @@ import { validationSchema } from '../../middleware/validateRequest.js';
 import { userAutoSuggestionSchema, userIdSchema, userSchema } from './schema/user.schema.js';
 import { createUserHandler, deleteUserHandler, getAutoSuggestUsersHandler, getUserHandler, updateUserHandler } from './controllers/user.controller.js';
 import express from 'express';
-const router = express.Router();
+const userRouter = express.Router();
 
-router.get('/users/:id', validationSchema(userIdSchema, 'params'), getUserHandler);
+userRouter.get('/autosuggest?', validationSchema(userAutoSuggestionSchema, 'query'), getAutoSuggestUsersHandler);
 
-router.post('/users', validationSchema(userSchema, 'body'), createUserHandler);
+userRouter.get('/:id', validationSchema(userIdSchema, 'params'), getUserHandler);
 
-router.put('/users/:id', validationSchema(userSchema, 'body'), updateUserHandler);
+userRouter.post('', validationSchema(userSchema, 'body'), createUserHandler);
 
-router.delete('/users/:id', validationSchema(userIdSchema, 'params'), deleteUserHandler);
+userRouter.put('/:id', validationSchema(userSchema, 'body'), updateUserHandler);
 
-router.get('/autosuggest/users', validationSchema(userAutoSuggestionSchema, 'query'), getAutoSuggestUsersHandler);
+userRouter.delete('/:id', validationSchema(userIdSchema, 'query'), deleteUserHandler);
 
-export default router;
+export default userRouter;
