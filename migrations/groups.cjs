@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false
       },
       permissions: {
-        type: Sequelize.ARRAY(Sequelize.STRING(255)),
+        type: Sequelize.ARRAY(Sequelize.ENUM('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')),
         allowNull: false
       }
     });

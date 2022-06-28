@@ -2,8 +2,7 @@ import { queryParser } from 'express-query-parser';
 import express from 'express';
 import { openConnection } from './data-access/db.js';
 import config from './config/index.js';
-import userRouter from './api/user/router.js';
-import groupRouter from './api/group/router.js';
+import rootRouter from './api/root-router.js';
 
 async function initialize() {
     try {
@@ -20,8 +19,7 @@ async function initialize() {
 
         app.use(express.json());
 
-        app.use('/api/users', userRouter);
-        app.use('/api/groups', groupRouter);
+        app.use('/', rootRouter);
 
         app.listen(config.PORT, () => {
             console.log(`App listening on port ${config.PORT}`);

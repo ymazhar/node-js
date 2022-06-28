@@ -1,9 +1,6 @@
 import UserModel from '../src/api/user/models/user.model.js';
 import GroupModel from '../src/api/group/models/group.model.js';
-import UserGroup from '../src/api/userGroup/models/userGroup.model.js';
-
-UserModel.belongsToMany(GroupModel, { through: UserGroup });
-GroupModel.belongsToMany(UserModel, { through: UserGroup });
+import UserGroup from '../src/api/group/models/userGroup.model.js';
 
 export default {
     UserModel,

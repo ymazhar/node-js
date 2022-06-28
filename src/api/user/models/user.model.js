@@ -31,7 +31,8 @@ const UserModel = User.init({
 }, {
     sequelize: db,
     tableName: 'users',
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true
 });
 
 export default UserModel;

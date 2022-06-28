@@ -6,7 +6,7 @@ import {
     getAutoSuggestUsers
 } from '../service/user.service.js';
 
-export async function createUserHandler(req, res) {
+export async function createUserController(req, res) {
     const body = req.body;
     const user = await createUser(body);
 
@@ -17,14 +17,14 @@ export async function createUserHandler(req, res) {
     }
 }
 
-export async function getUserHandler(req, res) {
+export async function getUserController(req, res) {
     const userId = req.params.id;
     const user = await getUser(userId);
 
     res.send(user);
 }
 
-export async function updateUserHandler(req, res) {
+export async function updateUserController(req, res) {
     const userId = req.params.id;
     const body = req.body;
     const user = await updateUser(userId, body);
@@ -32,14 +32,14 @@ export async function updateUserHandler(req, res) {
     res.send(user);
 }
 
-export async function deleteUserHandler(req, res) {
+export async function deleteUserController(req, res) {
     const userId = req.params.id;
     const user = await deleteUser(userId);
 
     res.send(user);
 }
 
-export async function getAutoSuggestUsersHandler(req, res) {
+export async function getAutoSuggestUsersController(req, res) {
     const login = req.query.login || 'admin';
     const limit = Number(req.query.limit) || 5;
 

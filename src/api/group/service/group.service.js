@@ -1,5 +1,6 @@
 import GroupModel from '../models/group.model.js';
 import { isRecordExist } from '../../../utils/isRecordExist.js';
+import userGroupModel from '../models/user-group.model.js';
 
 
 export async function createGroup(data) {
@@ -19,10 +20,10 @@ export async function createGroup(data) {
     }
 }
 
-export async function updateGroup(id, body) {
+export async function updateGroup(id, data) {
     try {
         const group = await GroupModel.findByPk(id);
-        await group.set(body);
+        await group.set(data);
         await group.save();
 
         return group.toJSON();
@@ -71,6 +72,17 @@ export async function deleteGroup(id) {
         }
         return `Group with id: ${id} doesn't exist`;
     } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export async function addUsersToGroup(data, transaction) {
+    try {
+        const userGroupRow = await userGroupModel.create(data, { transaction });
+        await transaction.commit();
+        return userGroupRow.toJSON();
+    } catch (error) {
+        await transaction.rollback();
         throw new Error(error);
     }
 }

@@ -15,14 +15,15 @@ const GroupModel = Group.init({
         allowNull: false
     },
     permissions: {
-        type: DataTypes.ARRAY(DataTypes.STRING(255)),
+        type: DataTypes.ARRAY(DataTypes.ENUM('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')),
         allowNull: false
     }
 }, {
     sequelize: db,
     tableName: 'groups',
     timestamps: false,
-    paranoid: true
+    paranoid: true,
+    freezeTableName: true
 });
 
 export default GroupModel;
