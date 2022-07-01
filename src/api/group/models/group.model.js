@@ -1,38 +1,29 @@
 import { DataTypes, Model } from 'sequelize';
-
 import db from '../../../data-access/db.js';
 
-class User extends Model {}
+class Group extends Model {}
 
-const UserModel = User.init({
+const GroupModel = Group.init({
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true
     },
-    login: {
+    name: {
         type: DataTypes.STRING(255),
         allowNull: false
     },
-    password: {
-        type: DataTypes.STRING(255),
+    permissions: {
+        type: DataTypes.ARRAY(DataTypes.ENUM('READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES')),
         allowNull: false
-    },
-    age: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    isDeleted: {
-        field: 'is_deleted',
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
     }
 }, {
     sequelize: db,
-    tableName: 'users',
+    tableName: 'groups',
     timestamps: false,
+    paranoid: true,
     freezeTableName: true
 });
 
-export default UserModel;
+export default GroupModel;

@@ -2,7 +2,7 @@ import { queryParser } from 'express-query-parser';
 import express from 'express';
 import { openConnection } from './data-access/db.js';
 import config from './config/index.js';
-import router from '../src/api/user/router.js';
+import rootRouter from './api/root-router.js';
 
 async function initialize() {
     try {
@@ -19,7 +19,7 @@ async function initialize() {
 
         app.use(express.json());
 
-        app.use('/api', router);
+        app.use('/', rootRouter);
 
         app.listen(config.PORT, () => {
             console.log(`App listening on port ${config.PORT}`);
