@@ -10,12 +10,14 @@ const UserGroupModel = UserGroup.init({
     user_id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
     group_id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        unique: true
+        unique: true,
+        primaryKey: true
     }
 }, {
     sequelize: db,
@@ -24,7 +26,7 @@ const UserGroupModel = UserGroup.init({
     freezeTableName: true
 });
 
-userModel.belongsToMany(groupModel, { through: UserGroupModel });
-groupModel.belongsToMany(userModel, { through: UserGroupModel });
+userModel.belongsToMany(groupModel, { through: 'user_group', foreignKey: 'user_id', timestamps: false });
+groupModel.belongsToMany(userModel, { through: 'user_group', foreignKey: 'group_id', timestamps: false });
 
 export default UserGroupModel;
