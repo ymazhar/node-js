@@ -3,6 +3,7 @@ import express from 'express';
 import { openConnection } from './data-access/db.js';
 import config from './config/index.js';
 import rootRouter from './api/root-router.js';
+import logger from './logger.js';
 
 async function initialize() {
     try {
@@ -22,7 +23,7 @@ async function initialize() {
         app.use('/', rootRouter);
 
         app.listen(config.PORT, () => {
-            console.log(`App listening on port ${config.PORT}`);
+            logger.info(`App listening on port ${config.PORT}`);
         });
 
         await openConnection();
