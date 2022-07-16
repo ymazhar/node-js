@@ -3,7 +3,8 @@ import express from 'express';
 import { openConnection } from './data-access/db.js';
 import config from './config/index.js';
 import rootRouter from './api/root-router.js';
-import logger from './logger.js';
+import { logger } from './middleware/logger.middleware.js';
+import errorMiddleware from './middleware/error.middleware.js';
 
 async function initialize() {
     try {
@@ -21,6 +22,8 @@ async function initialize() {
         app.use(express.json());
 
         app.use('/', rootRouter);
+
+        app.use(errorMiddleware);
 
         app.listen(config.PORT, () => {
             logger.info(`App listening on port ${config.PORT}`);

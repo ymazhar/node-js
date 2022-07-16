@@ -11,14 +11,14 @@ import { Router } from 'express';
 
 const userRouter = Router();
 
-userRouter.get('/autosuggest?', validationSchema(userAutoSuggestionSchema, 'query'), getAutoSuggestUsersController);
+userRouter.get('/autosuggest?', validationSchema(userAutoSuggestionSchema), getAutoSuggestUsersController);
 
-userRouter.get('/:id', validationSchema(userIdSchema, 'params'), getUserController);
+userRouter.get('/:id', getUserController);
 
-userRouter.post('', validationSchema(userSchema, 'body'), createUserController);
+userRouter.post('', validationSchema(userSchema), createUserController);
 
-userRouter.put('/:id', validationSchema(userSchema, 'body'), updateUserController);
+userRouter.put('/:id', validationSchema(userSchema), updateUserController);
 
-userRouter.delete('/:id', validationSchema(userIdSchema, 'query'), deleteUserController);
+userRouter.delete('/:id', validationSchema(userIdSchema), deleteUserController);
 
 export default userRouter;

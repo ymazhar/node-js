@@ -18,10 +18,13 @@ export async function createUserController(req, res) {
 }
 
 export async function getUserController(req, res) {
-    const userId = req.params.id;
-    const user = await getUser(userId);
-
-    res.send(user);
+    try {
+        const userId = req.params.id;
+        const user = await getUser(userId);
+        res.send(user);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 export async function updateUserController(req, res) {
