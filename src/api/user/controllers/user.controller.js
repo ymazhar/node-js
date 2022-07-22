@@ -6,46 +6,75 @@ import {
     getAutoSuggestUsers
 } from '../service/user.service.js';
 
-export async function createUserController(req, res) {
-    const body = req.body;
-    const user = await createUser(body);
+export async function createUserController(req) {
+    try {
+        const body = req.body;
+        const user = await createUser(body);
 
-    if (user.name === 'Error') {
-        res.status(400).send(user.message);
-    } else {
-        res.send(user);
+        return {
+            json: user,
+            status: 200
+        };
+    } catch (err) {
+        throw new Error(err);
     }
 }
 
-export async function getUserController(req, res) {
+export async function getUserController(req) {
     try {
         const userId = req.params.id;
         const user = await getUser(userId);
-        res.send(user);
+
+        return {
+            json: user,
+            status: 200
+        };
     } catch (err) {
-        console.log(err);
+        throw new Error(err);
     }
 }
 
-export async function updateUserController(req, res) {
-    const userId = req.params.id;
-    const body = req.body;
-    const user = await updateUser(userId, body);
+export async function updateUserController(req) {
+    try {
+        const userId = req.params.id;
+        const body = req.body;
+        const user = await updateUser(userId, body);
 
-    res.send(user);
+        return {
+            json: user,
+            status: 200
+        };
+    } catch (err) {
+        throw new Error(err);
+    }
 }
 
-export async function deleteUserController(req, res) {
-    const userId = req.params.id;
-    const user = await deleteUser(userId);
+export async function deleteUserController(req) {
+    try {
+        const userId = req.params.id;
+        const user = await deleteUser(userId);
 
-    res.send(user);
+        return {
+            json: user,
+            status: 200
+        };
+    } catch (err) {
+        throw new Error(err);
+    }
 }
 
-export async function getAutoSuggestUsersController(req, res) {
-    const login = req.query.login || 'admin';
-    const limit = Number(req.query.limit) || 5;
+export async function getAutoSuggestUsersController(req) {
+    try {
+        const login = req.query.login || 'admin';
+        const limit = Number(req.query.limit) || 5;
 
-    const users = await getAutoSuggestUsers(login, limit);
-    res.send(users);
+        const users = await getAutoSuggestUsers(login, limit);
+
+        return {
+            json: users,
+            status: 200
+        };
+    } catch (err) {
+        throw new Error(err);
+    }
 }

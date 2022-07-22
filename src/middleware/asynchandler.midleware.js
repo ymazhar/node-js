@@ -1,16 +1,6 @@
-export function errorResponse(schemaErrors) {
-    const errors = schemaErrors.map((error) => {
-        const { path, message } = error;
-        return { path, message };
-    });
+import { SchemaValidationFailedError } from './error.middleware.js';
 
-    return {
-        status: 'failed',
-        errors
-    };
-}
-
-export function validationSchema(schema) {
+export function asyncHandler(schema, handler) {
     return (req, res, next) => {
         if (schema.body) {
             const { error } = schema.body.validate(req.body, {
@@ -19,7 +9,7 @@ export function validationSchema(schema) {
             });
 
             if (error && error.isJoi) {
-                return next(res.status(400).json(errorResponse(error.details)));
+                return next(new SchemaValidationFailedError('Request Body is not valid'));
             }
         }
 
@@ -30,9 +20,7 @@ export function validationSchema(schema) {
             });
 
             if (error && error.isJoi) {
-                res.status(400).json(errorResponse(error.details));
-            } else {
-                return next();
+                return next(new SchemaValidationFailedError('Request params is not valid'));
             }
         }
 
@@ -43,18 +31,14 @@ export function validationSchema(schema) {
             });
 
             if (error && error.isJoi) {
-                res.status(400).json(errorResponse(error.details));
-            } else {
-                return next();
+                return next(new SchemaValidationFailedError('Request query is not valid'));
             }
         }
+
+        handler(req)
+            .then(({ status, json }) => {
+                return res.status(status).json(json);
+            })
+            .catch(next);
     };
-}
-
-
-export class SchemaValidationFailedError {
-    constructor(error, message) {
-        this.error = error;
-        this.message = message;
-    }
 }

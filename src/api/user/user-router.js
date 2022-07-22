@@ -1,4 +1,4 @@
-import { validationSchema } from '../../middleware/validateRequest.js';
+import {  asyncHandler } from '../../middleware/asynchandler.midleware.js';
 import { userAutoSuggestionSchema, userIdSchema, userSchema } from './schema/user.schema.js';
 import {
     createUserController,
@@ -11,14 +11,14 @@ import { Router } from 'express';
 
 const userRouter = Router();
 
-userRouter.get('/autosuggest?', validationSchema(userAutoSuggestionSchema), getAutoSuggestUsersController);
+userRouter.get('/autosuggest?', asyncHandler(userAutoSuggestionSchema, getAutoSuggestUsersController));
 
-userRouter.get('/:id', getUserController);
+userRouter.get('/:id', asyncHandler(userIdSchema, getUserController));
 
-userRouter.post('', validationSchema(userSchema), createUserController);
+userRouter.post('', asyncHandler(userSchema, createUserController));
 
-userRouter.put('/:id', validationSchema(userSchema), updateUserController);
+userRouter.put('/:id', asyncHandler(userSchema, updateUserController));
 
-userRouter.delete('/:id', validationSchema(userIdSchema), deleteUserController);
+userRouter.delete('/:id', asyncHandler(userIdSchema, deleteUserController));
 
 export default userRouter;
