@@ -1,13 +1,13 @@
 import UserModel from '../models/user.model.js';
 import { Op } from 'sequelize';
 import { isRecordExist } from '../../../utils/isRecordExist.js';
-import { UserLoginExistError, UserNotExistError } from '../../../middleware/error.middleware.js';
+import { UserLoginExistError, UserNotExistError } from '../../../lib/error.js';
 
 export async function createUser(data) {
     const isUserExistInDatabase = await isRecordExist(UserModel, { login: data.login });
 
     if (isUserExistInDatabase) {
-        return new UserLoginExistError('login already exist');
+        return new UserLoginExistError(`${data.login} login already exist`);
     }
 
     const user = await UserModel.create(data);

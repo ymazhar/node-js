@@ -7,20 +7,18 @@ import {
     deleteGroupController,
     addUserGroupController
 } from './controllers/group.controller.js';
-import { asyncHandler } from '../../middleware/asynchandler.midleware.js';
-import { groupAddUserSchema, groupIdSchema, groupSchema } from './schema/group.schema.js';
 const groupRouter = Router();
 
-groupRouter.post('/', asyncHandler(groupSchema), createGroupController);
+groupRouter.post('/', createGroupController);
 
-groupRouter.put('/:id', asyncHandler(groupIdSchema), updateGroupController);
+groupRouter.put('/:id', updateGroupController);
 
-groupRouter.get('/:id', asyncHandler(groupIdSchema), getGroupController);
+groupRouter.get('/:id', getGroupController);
 
 groupRouter.get('/', getAllGroupsController);
 
-groupRouter.delete('/:id', asyncHandler(groupIdSchema), deleteGroupController);
+groupRouter.delete('/:id', deleteGroupController);
 
-groupRouter.post('/adduser', asyncHandler(groupAddUserSchema), addUserGroupController);
+groupRouter.post('/adduser', addUserGroupController);
 
 export default groupRouter;

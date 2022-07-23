@@ -1,5 +1,3 @@
-import {  asyncHandler } from '../../middleware/asynchandler.midleware.js';
-import { userAutoSuggestionSchema, userIdSchema, userSchema } from './schema/user.schema.js';
 import {
     createUserController,
     deleteUserController,
@@ -11,14 +9,14 @@ import { Router } from 'express';
 
 const userRouter = Router();
 
-userRouter.get('/autosuggest?', asyncHandler(userAutoSuggestionSchema, getAutoSuggestUsersController));
+userRouter.get('/autosuggest?', getAutoSuggestUsersController);
 
-userRouter.get('/:id', asyncHandler(userIdSchema, getUserController));
+userRouter.get('/:id', getUserController);
 
-userRouter.post('', asyncHandler(userSchema, createUserController));
+userRouter.post('', createUserController);
 
-userRouter.put('/:id', asyncHandler(userSchema, updateUserController));
+userRouter.put('/:id', updateUserController);
 
-userRouter.delete('/:id', asyncHandler(userIdSchema, deleteUserController));
+userRouter.delete('/:id', deleteUserController);
 
 export default userRouter;

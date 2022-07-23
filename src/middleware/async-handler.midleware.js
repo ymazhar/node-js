@@ -1,6 +1,6 @@
-import { SchemaValidationFailedError } from './error.middleware.js';
+import { SchemaValidationFailedError } from '../lib/error.js';
 
-export function asyncHandler(schema, handler) {
+export function asyncHandler(name, schema, handler) {
     return (req, res, next) => {
         if (schema.body) {
             const { error } = schema.body.validate(req.body, {
@@ -9,7 +9,7 @@ export function asyncHandler(schema, handler) {
             });
 
             if (error && error.isJoi) {
-                return next(new SchemaValidationFailedError('Request Body is not valid'));
+                return next(new SchemaValidationFailedError('Request Body is not valid', error.details, name));
             }
         }
 
@@ -20,7 +20,7 @@ export function asyncHandler(schema, handler) {
             });
 
             if (error && error.isJoi) {
-                return next(new SchemaValidationFailedError('Request params is not valid'));
+                return next(new SchemaValidationFailedError('Request params is not valid', error.details, name));
             }
         }
 
@@ -31,7 +31,7 @@ export function asyncHandler(schema, handler) {
             });
 
             if (error && error.isJoi) {
-                return next(new SchemaValidationFailedError('Request query is not valid'));
+                return next(new SchemaValidationFailedError('Request query is not valid', error.details, name));
             }
         }
 
