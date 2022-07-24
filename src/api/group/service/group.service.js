@@ -9,7 +9,7 @@ export async function createGroup(data) {
     const isGroupExistInDatabase = await isRecordExist(GroupModel, { name });
 
     if (isGroupExistInDatabase) {
-        return new GroupExistError(`Group with name: ${name}, already exist`);
+        throw new GroupExistError(`Group with name: ${name}, already exist`);
     }
 
     const group = await GroupModel.create(data);
@@ -29,7 +29,7 @@ export async function getGroup(id) {
     const group = await GroupModel.findByPk(id);
 
     if (!group) {
-        return new GroupNotExistError(`Cannot find a group with exist id: ${id}`);
+        throw new GroupNotExistError(`Cannot find a group with exist id: ${id}`);
     }
     return group.toJSON();
 }
@@ -40,7 +40,7 @@ export async function getAllGroups() {
     });
 
     if (!group.length) {
-        return new GroupEmptyTableError('Group table is empty');
+        throw new GroupEmptyTableError('Group table is empty');
     }
     return group;
 }
@@ -52,7 +52,7 @@ export async function deleteGroup(id) {
     if (statusGroup) {
         return `Group with id: ${id} was successfully soft deleted`;
     }
-    return new GroupNotExistError(`Group with id: ${id} doesn't exist`);
+    throw new GroupNotExistError(`Group with id: ${id} doesn't exist`);
 }
 
 export async function addUsersToGroup(data, transaction) {
