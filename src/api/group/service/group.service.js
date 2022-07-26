@@ -45,9 +45,10 @@ export async function getAllGroups() {
     return group;
 }
 
-export async function deleteGroup(id) {
+export async function deleteGroup(id, trx) {
     const statusGroup = await GroupModel.destroy({
-        where: { id }
+        where: { id },
+        transaction: trx
     });
     if (statusGroup) {
         return `Group with id: ${id} was successfully soft deleted`;

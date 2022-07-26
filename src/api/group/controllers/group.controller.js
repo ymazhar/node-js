@@ -5,7 +5,7 @@ import {
     getAllGroups,
     deleteGroup, addUsersToGroup
 } from '../service/group.service.js';
-import { asyncHandler } from '../../../middleware/async-handler.midleware.js';
+import { asyncHandler } from '../../../lib/async-handler.js';
 import { groupSchema, groupAddUserSchema, groupIdSchema } from '../schema/group.schema.js';
 
 export const createGroupController = asyncHandler('Create - Group - Controller', groupSchema, async (req, trx) => {
@@ -48,9 +48,9 @@ export const getAllGroupsController = asyncHandler('Get All - Group - Controller
     };
 });
 
-export const deleteGroupController = asyncHandler('Delete - Group - Controller', groupIdSchema, async (req) => {
+export const deleteGroupController = asyncHandler('Delete - Group - Controller', groupIdSchema, async (req, trx) => {
     const groupId = req.params.id;
-    const group = await deleteGroup(groupId);
+    const group = await deleteGroup(groupId, trx);
 
     return {
         json: group,

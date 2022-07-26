@@ -5,7 +5,7 @@ import {
     updateUser,
     getAutoSuggestUsers
 } from '../service/user.service.js';
-import { asyncHandler } from '../../../middleware/async-handler.midleware.js';
+import { asyncHandler } from '../../../lib/async-handler.js';
 import { userIdSchema, userAutoSuggestionSchema, userSchema } from '../schema/user.schema.js';
 
 export const createUserController = asyncHandler('Create - User - Controller', userSchema, async (req) => {
