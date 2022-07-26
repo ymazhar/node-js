@@ -7,7 +7,7 @@ export async function createUser(data) {
     const isUserExistInDatabase = await isRecordExist(UserModel, { login: data.login });
 
     if (isUserExistInDatabase) {
-        return new UserLoginExistError(`${data.login} login already exist`);
+        throw new UserLoginExistError(`${data.login} login already exist`);
     }
 
     const user = await UserModel.create(data);
@@ -49,7 +49,7 @@ export async function getAutoSuggestUsers(login, limit) {
 export async function getUser(id) {
     const user = await UserModel.findByPk(id);
     if (user === null) {
-        return new UserNotExistError(`Can't find user with id: ${id}`);
+        throw new UserNotExistError(`Can't find user with id: ${id}`);
     }
     const isDeleted = user.get('is_deleted');
 
