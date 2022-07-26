@@ -5,13 +5,12 @@ import {
     getAllGroups,
     deleteGroup, addUsersToGroup
 } from '../service/group.service.js';
-import db from '../../../data-access/db.js';
 import { asyncHandler } from '../../../middleware/async-handler.midleware.js';
 import { groupSchema, groupAddUserSchema, groupIdSchema } from '../schema/group.schema.js';
 
-export const createGroupController = asyncHandler('Create - Group - Controller', groupSchema, async (req) => {
+export const createGroupController = asyncHandler('Create - Group - Controller', groupSchema, async (req, trx) => {
     const body = req.body;
-    const group = await createGroup(body);
+    const group = await createGroup(body, trx);
 
     return {
         json: group,
@@ -59,10 +58,9 @@ export const deleteGroupController = asyncHandler('Delete - Group - Controller',
     };
 });
 
-export const addUserGroupController = asyncHandler('Add User Group - Group - Controller', groupAddUserSchema, async (req) => {
-    const transaction = await db.transaction();
+export const addUserGroupController = asyncHandler('Add User Group - Group - Controller', groupAddUserSchema, async (req, trx) => {
     const { user_id, group_id } = req.body;
-    const userGroup = await addUsersToGroup({ user_id, group_id }, transaction);
+    const userGroup = await addUsersToGroup({ user_id, group_id }, trx);
 
     return {
         json: userGroup,

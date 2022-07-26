@@ -4,15 +4,15 @@ import userGroupModel from '../models/user-group.model.js';
 import { GroupEmptyTableError, GroupExistError, GroupNotExistError } from '../../../lib/error.js';
 
 
-export async function createGroup(data) {
+export async function createGroup(data, trx) {
     const { name } = data;
-    const isGroupExistInDatabase = await isRecordExist(GroupModel, { name });
+    const isGroupExistInDatabase = await isRecordExist(GroupModel, { name }, trx);
 
     if (isGroupExistInDatabase) {
         throw new GroupExistError(`Group with name: ${name}, already exist`);
     }
 
-    const group = await GroupModel.create(data);
+    const group = await GroupModel.create(data, { transaction: trx });
 
     return group.toJSON();
 }
@@ -55,13 +55,7 @@ export async function deleteGroup(id) {
     throw new GroupNotExistError(`Group with id: ${id} doesn't exist`);
 }
 
-export async function addUsersToGroup(data, transaction) {
-    try {
-        const userGroupRow = await userGroupModel.create(data, { transaction });
-        await transaction.commit();
-        return userGroupRow.toJSON();
-    } catch (error) {
-        await transaction.rollback();
-        throw new Error(error);
-    }
+export async function addUsersToGroup(data, trx) {
+    const userGroupRow = await userGroupModel.create(data, { transaction: trx });
+    return userGroupRow.toJSON();
 }
