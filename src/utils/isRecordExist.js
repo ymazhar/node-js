@@ -1,9 +1,5 @@
-export async function isRecordExist(model, data) {
-    try {
-        const record = await model.findOne({ where: { ...data } });
+export async function isRecordExist(model, data, trx) {
+    const record = await model.findOne({ where: { ...data }, transaction: trx });
 
-        return record !== null;
-    } catch (error) {
-        throw new Error(error);
-    }
+    return record !== null;
 }
