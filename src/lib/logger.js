@@ -1,4 +1,5 @@
 import { transports, format, createLogger } from 'winston';
+const { combine, printf, colorize, timestamp, splat } = format;
 
 const customLevels = {
     levels: {
@@ -19,14 +20,14 @@ const customLevels = {
     }
 };
 
-const formatter = format.combine(
-    format.colorize(),
-    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    format.splat(),
-    format.printf((info) => {
-        const { timestamp, level, message, ...meta } = info;
+const formatter = combine(
+    colorize(),
+    timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    splat(),
+    printf((info) => {
+        const { timestamp: time, level, message, ...meta } = info;
 
-        return `${timestamp} [${level}]: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`;
+        return `${time} [${level}]: ${message} ${Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ''}`;
     }),
 );
 
