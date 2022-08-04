@@ -1,5 +1,6 @@
 import { queryParser } from 'express-query-parser';
 import express from 'express';
+import cors from 'cors';
 import { openConnection } from './data-access/db.js';
 import config from './config/index.js';
 import rootRouter from './api/root-router.js';
@@ -25,6 +26,8 @@ async function initialize() {
         res.on('finish', () => logger.info(`Response status: ${res.statusCode}`));
         next();
     });
+
+    app.use(cors());
 
     app.use('/', rootRouter);
 
