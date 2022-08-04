@@ -7,7 +7,11 @@ import {
     deleteGroupController,
     addUserGroupController
 } from './controllers/group.controller.js';
+import { checkToken } from '../../middleware/authorization.js';
+
 const groupRouter = Router();
+
+groupRouter.use(checkToken);
 
 groupRouter.post('/', createGroupController);
 

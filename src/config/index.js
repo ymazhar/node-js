@@ -7,5 +7,6 @@ export default {
         host: 'localhost',
         dialect: 'postgres',
         port: 5440
-    }
+    },
+    ACCESS_TOKEN_SECRET: 'adsfasdfwer2334rfaf4r23rfrggregrg'
 };

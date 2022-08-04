@@ -18,7 +18,7 @@ export const createUserController = asyncHandler('Create - User - Controller', u
     };
 });
 
-export const getUserController = asyncHandler('Get - User - Controller', userIdSchema, async (req) => {
+export const  getUserController = asyncHandler('Get - User - Controller', userIdSchema, async (req) => {
     const userId = req.params.id;
     const user = await getUser(userId);
 
