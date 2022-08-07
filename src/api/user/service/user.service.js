@@ -1,14 +1,14 @@
 import UserModel from '../models/user.model.js';
 import { Op } from 'sequelize';
 import { isRecordExist } from '../../../utils/isRecordExist.js';
-import { UnauthorizedError, UserNotExistError } from '../../../lib/error.js';
+import { UnauthorizedError, UserNotExistError, UserLoginExistError } from '../../../lib/error.js';
 import { jwtTokens } from '../../../utils/jwt-helpers.js';
 
 export async function createUser(data) {
     const isUserExistInDatabase = await isRecordExist(UserModel, { login: data.login });
 
     if (isUserExistInDatabase) {
-        throw new UnauthorizedError(`${data.login} login already exist`);
+        throw new UserLoginExistError(`${data.login} login already exist`);
     }
 
     const user = await UserModel.create(data);

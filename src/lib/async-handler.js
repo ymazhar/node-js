@@ -45,7 +45,7 @@ export function asyncHandler(name, schema, handler) {
 }
 
 async function startTransactionManager(name, handler) {
-    return await db.transaction(async (trx) => {
-        return await handler(trx);
+    return db.transaction(async (trx) => {
+        return handler(trx);
     });
 }
