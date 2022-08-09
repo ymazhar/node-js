@@ -1,7 +1,8 @@
 import UserModel from '../models/user.model.js';
 import { Op } from 'sequelize';
 import { isRecordExist } from '../../../utils/isRecordExist.js';
-import { UserLoginExistError, UserNotExistError } from '../../../lib/error.js';
+import { UnauthorizedError, UserNotExistError, UserLoginExistError } from '../../../lib/error.js';
+import { jwtTokens } from '../../../utils/jwt-helpers.js';
 
 export async function createUser(data) {
     const isUserExistInDatabase = await isRecordExist(UserModel, { login: data.login });
@@ -56,4 +57,13 @@ export async function getUser(id) {
     if (!isDeleted) {
         return user.toJSON();
     }
+}
+
+export async function getTokenByUser(username, password) {
+    const user = await UserModel.findOne({ where: { login: username, password, isDeleted: false } });
+    if (!user) {
+        throw new UnauthorizedError();
+    }
+
+    return jwtTokens(user);
 }

@@ -24,3 +24,10 @@ export const userAutoSuggestionSchema = {
         login: Joi.string()
     })
 };
+
+export const userGetLoginShema = {
+    body: Joi.object({
+        username: Joi.string().required(),
+        password: Joi.string().required().alphanum()
+    })
+};

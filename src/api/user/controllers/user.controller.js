@@ -3,10 +3,10 @@ import {
     deleteUser,
     getUser,
     updateUser,
-    getAutoSuggestUsers
+    getAutoSuggestUsers, getTokenByUser
 } from '../service/user.service.js';
 import { asyncHandler } from '../../../lib/async-handler.js';
-import { userIdSchema, userAutoSuggestionSchema, userSchema } from '../schema/user.schema.js';
+import { userIdSchema, userAutoSuggestionSchema, userSchema, userGetLoginShema } from '../schema/user.schema.js';
 
 export const createUserController = asyncHandler('Create - User - Controller', userSchema, async (req) => {
     const body = req.body;
@@ -57,6 +57,16 @@ export const getAutoSuggestUsersController = asyncHandler('Get Auto Suggest - Us
 
     return {
         json: users,
+        status: 200
+    };
+});
+
+export const getToken = asyncHandler('Get Login - User - Controller', userGetLoginShema, async (req) => {
+    const { username, password } = req.body;
+    const token = await getTokenByUser(username, password);
+
+    return {
+        json: token,
         status: 200
     };
 });

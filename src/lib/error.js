@@ -4,7 +4,6 @@ import { HttpStatusCode } from './status.js';
 export class CustomError extends Error {
     constructor(message, name, statusCode) {
         super();
-
         this.message = message;
         this.name = name;
         this.statusCode = statusCode;
@@ -43,6 +42,7 @@ export class UserNotExistError extends CustomError {
         this.statusCode = HttpStatusCode.OK;
     }
 }
+
 export class GroupNotExistError extends CustomError {
     constructor(message, name, statusCode, stack) {
         super(name, statusCode, stack);
@@ -70,6 +70,26 @@ export class GroupSoftDeletedError extends CustomError {
     }
 }
 
+export class UnauthorizedError extends CustomError {
+    constructor() {
+        super();
+        this.message = 'No token provided.';
+        this.statusCode = HttpStatusCode.UNAUTHORIZED;
+        this.name = 'UnauthorizedError';
+        this.success = false;
+    }
+}
+
+export class ForbiddenError extends CustomError {
+    constructor(success, message, name) {
+        super(message, name);
+        this.message = 'Failed to authenticate token.';
+        this.statusCode = HttpStatusCode.FORBIDDEN;
+        this.name = 'ForbiddenError';
+        this.success = false;
+    }
+}
+
 export function logError(err) {
     logger.error(err);
 }
@@ -82,7 +102,7 @@ export function logErrorMiddleware(err, req, res, next) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function returnError(err, req, res, next) {
     if (err instanceof SchemaValidationFailedError) {
-        res.status(err.statusCode || 400).send(err);
+        res.status(err.statusCode || 400).json(err);
     }
-    res.status(err.statusCode || 500).send(err.message);
+    res.status(err.statusCode || 500).json(err);
 }

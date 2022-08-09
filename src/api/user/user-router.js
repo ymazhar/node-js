@@ -6,8 +6,11 @@ import {
     updateUserController
 } from './controllers/user.controller.js';
 import { Router } from 'express';
+import { checkToken } from '../../middleware/authorization.js';
 
 const userRouter = Router();
+
+userRouter.use(checkToken);
 
 userRouter.get('/autosuggest?', getAutoSuggestUsersController);
 
