@@ -1,12 +1,19 @@
-import config from './index.js';
-
+const { DB_NAME, DB_USER, DB_PORT, DB_DIALECT, DB_PASS, DB_HOST } = process.env;
 export default {
     development: {
-        username: config.db.username,
-        password: config.db.password,
-        database: config.db.database,
-        host: config.db.host,
-        port: config.db.port,
-        dialect: config.db.dialect
+        username: DB_USER,
+        password: DB_PASS,
+        database: DB_NAME,
+        host: DB_HOST,
+        port: DB_PORT,
+        dialect: DB_DIALECT
+    },
+    test: {
+        username: DB_USER,
+        password: DB_PASS,
+        database: DB_NAME,
+        host: DB_HOST,
+        port: DB_PORT,
+        dialect: DB_DIALECT
     }
 };

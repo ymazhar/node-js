@@ -1,8 +1,8 @@
 import { queryParser } from 'express-query-parser';
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { openConnection } from './data-access/db.js';
-import config from './config/index.js';
 import rootRouter from './api/root-router.js';
 import { logger } from './lib/logger.js';
 import { logError, logErrorMiddleware, returnError } from './lib/error.js';
@@ -31,8 +31,8 @@ async function initialize() {
 
     app.use('/', rootRouter);
 
-    app.listen(config.PORT, () => {
-        logger.info(`App listening on port ${config.PORT}`);
+    app.listen(process.env.APP_PORT, () => {
+        logger.info(`App listening on port ${process.env.APP_PORT}`);
     });
 
     process.on('unhandledRejection', error => {
