@@ -1,5 +1,8 @@
 {
   "name": "js-lab",
+  "jest": {
+    "transform": {}
+  },
   "version": "1.0.0",
   "description": "Cross-country global mentoring program related to Node.js ecosystem and related environment.",
   "main": " ./src/server.js",
@@ -8,7 +11,8 @@
     "migrate:up": "npx sequelize-cli db:migrate",
     "migrate:down": "npx sequelize-cli db:migrate:undo",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "pretest": "NODE_ENV=test sequelize-cli db:migrate:undo:all && NODE_ENV=test sequelize-cli db:drop && NODE_ENV=test sequelize-cli db:create && NODE_ENV=test sequelize-cli db:migrate",
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -33,7 +37,7 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
-    "babel-register": "^6.26.0",
+    "babel-register": "^7.0.0-0",
     "eslint": "^8.17.0",
     "husky": "^8.0.0",
     "jest": "^28.1.3",
