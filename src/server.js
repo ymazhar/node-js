@@ -6,6 +6,7 @@ import { openConnection } from './data-access/db.js';
 import rootRouter from './api/root-router.js';
 import { logger } from './lib/logger.js';
 import { logError, logErrorMiddleware, returnError } from './lib/error.js';
+import config from './config/index.js';
 
 async function initialize() {
     const app = express();
@@ -31,8 +32,8 @@ async function initialize() {
 
     app.use('/', rootRouter);
 
-    app.listen(process.env.APP_PORT, () => {
-        logger.info(`App listening on port ${process.env.APP_PORT}`);
+    app.listen(config.PORT, () => {
+        logger.info(`App listening on port ${config.PORT}`);
     });
 
     process.on('unhandledRejection', error => {
