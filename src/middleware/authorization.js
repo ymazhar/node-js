@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { ForbiddenError, UnauthorizedError } from '../lib/error.js';
-import config from '../config/index.js';
+import { config } from '../config/index.js';
 
 function checkToken(req, res, next) {
     const authHeader = req.headers.authorization;

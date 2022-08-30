@@ -6,7 +6,7 @@ import { openConnection } from './data-access/db.js';
 import rootRouter from './api/root-router.js';
 import { logger } from './lib/logger.js';
 import { logError, logErrorMiddleware, returnError } from './lib/error.js';
-import config from './config/index.js';
+import { config } from './config/index.js';
 
 async function initialize() {
     const app = express();

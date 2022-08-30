@@ -1,21 +1,38 @@
-import axios from 'axios';
-import { createUser, getTokenByUser } from '../service/user.service.js';
+import { mockedRequestHandler } from '../../../lib/test-helpers.js';
+import { getUserController } from './user.controller.js';
+import db from '../../../data-access/db.js';
+
+const id = '8b834829-7c34-41de-9ef3-82ab7208befa';
+const rawUser = {
+    id,
+    login: 'admin2',
+    password: 'nimda2',
+    age: 39,
+    isDeleted: false
+};
+const populateDBWithTestData = async () => {
+    try {
+        await db.query(`INSERT INTO public.users VALUES ('${rawUser.id}', '${rawUser.login}', '${rawUser.password}', ${rawUser.age}, ${rawUser.isDeleted}); END`);
+    } catch (e) {
+        console.log(e);
+    }
+};
 
 describe('USER API', () => {
-    it('should create user', async () => {
-        const body = {
-            'login': 'admin',
-            'password': 'nimda',
-            'age': '39'
-        };
-        await createUser(body);
+    beforeAll(async () => {
+        // Clears the database and adds some testing data.
+        // Jest will wait for this promise to resolve before running tests.
+        await populateDBWithTestData();
+    });
 
-        const token = await getTokenByUser('admin', 'nimda');
-        console.log('token', token);
-        const res = await axios.post('/api/auth/login', {
-            'login': 'admin',
-            'password': 'nimda'
-        });
-        console.log('res', res);
+    it('Should return user by id', async () => {
+        const requestData = { params: { id } };
+
+        const result = {
+            json: rawUser,
+            status: 200
+        };
+
+        expect(await mockedRequestHandler(getUserController, requestData)).toEqual(result);
     });
 });

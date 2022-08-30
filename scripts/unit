@@ -1,0 +1,9 @@
+#! /bin/bash
+
+export DB_NAME=crud_db_test
+export DB_PORT=5430
+
+npm run migrate:up
+
+NODE_OPTIONS=--experimental-vm-modules \
+npx jest --coverage
