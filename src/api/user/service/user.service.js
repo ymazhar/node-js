@@ -27,7 +27,7 @@ export async function updateUser(id, body) {
 export async function deleteUser(id) {
     const user = await UserModel.findByPk(id);
 
-    await user.set('is_deleted', true);
+    await user.set('isDeleted', true);
     await user.save();
 
     return user.toJSON();

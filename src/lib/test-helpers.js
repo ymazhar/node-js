@@ -13,9 +13,6 @@ async function mockedRequestHandler(handler, data) {
         },
         json: (val) => {
             resJson = val;
-            return res;
-        },
-        send: () => {
             sendRes({ json: resJson, status: resStatus });
             return res;
         }

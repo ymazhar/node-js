@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 export const config = {
-    PORT: process.env.PORT || '8080',
+    PORT: process.env.APP_PORT || '8080',
     db: {
         database: process.env.DB_NAME,
         username: process.env.DB_USER,
