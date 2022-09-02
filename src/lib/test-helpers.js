@@ -23,7 +23,7 @@ async function mockedRequestHandler(handler, data) {
     });
 
     handler(req, res, (err) => {
-        sendRes({ error: err, status: err.statusCode || 500 });
+        sendRes({ message: err.message, name: err.name, statusCode: err.statusCode || 500 });
     });
 
     return promise;

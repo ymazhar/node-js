@@ -35,6 +35,7 @@ export async function deleteUser(id) {
 
 export async function getAutoSuggestUsers(login, limit) {
     const users = await UserModel.findAndCountAll({
+        raw: true,
         where: {
             login: {
                 [Op.substring]: login
