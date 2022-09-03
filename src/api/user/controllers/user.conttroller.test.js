@@ -12,6 +12,7 @@ const rawUser = {
 
 const populateDBWithTestData = async () => {
     const rawUserQueryValues = `'${rawUser.id}', '${rawUser.login}', '${rawUser.password}', ${rawUser.age}, ${rawUser.isDeleted}`;
+    console.log(rawUserQueryValues);
     try {
         await db.query(`INSERT INTO public.users VALUES (${rawUserQueryValues})`);
     } catch (e) {
