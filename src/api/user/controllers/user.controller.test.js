@@ -34,7 +34,7 @@ describe('user API', () => {
         expect(await mockedRequestHandler(getUserController, requestData)).toEqual(result);
     });
 
-    test('should update user ', async () => {
+    test('should update user', async () => {
         const { json: { id } } = await mockedRequestHandler(getUserController, { params: { id: USER.id } });
         const requestData = { params: { id }, body: { age: '25' } };
 

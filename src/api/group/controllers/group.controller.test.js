@@ -46,7 +46,6 @@ describe('group API', () => {
         expect(await mockedRequestHandler(getAllGroupsController)).toEqual(result);
     });
 
-    // TODO Do I need to use a transaction?
     test('should create group', async () => {
         const requestData = { body: { name: 'marketing', permissions: [PERMISSIONS.UPLOAD_FILES] } };
         const result = {
