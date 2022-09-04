@@ -39,7 +39,7 @@ export class UserNotExistError extends CustomError {
         super();
         this.message = message;
         this.name = 'UserNotExistError';
-        this.statusCode = HttpStatusCode.OK;
+        this.statusCode = HttpStatusCode.NOT_FOUND;
     }
 }
 
