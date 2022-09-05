@@ -1,0 +1,14 @@
+#! /bin/bash
+
+# Напиши пожалуйста и скинь мне три sql запроса:
+# 1 удаление юзера с таблицы users по id.
+DELETE FROM users
+WHERE id = '8b834829-7c34-41de-9ef3-82ab7208befa';
+# 1.1 soft delete )
+UPDATE users
+SET is_deleted = true
+WHERE id = '3adcab29-23e1-4ff0-8115-3db7b8efd849';
+# 2 удаление всех юзеров с таблицы users
+DELETE FROM users;
+# 3 удаление таблицы users
+DROP TABLE IF EXISTS users;
