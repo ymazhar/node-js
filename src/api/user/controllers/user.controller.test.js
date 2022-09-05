@@ -1,9 +1,7 @@
 import { mockedRequestHandler } from '../../../lib/test-helpers.js';
 import { getUserController, createUserController, updateUserController, deleteUserController, getAutoSuggestUsersController } from './user.controller.js';
 import { clearDBTestData, populateUserDBWithTestData } from '../../../utils/test-helpers.js';
-import { RAW_TEST_DATA } from '../../../utils/test-data.js';
-
-const { USER } = RAW_TEST_DATA;
+import { rawUser } from './../../../test/fixtures/users.js';
 
 beforeAll(() => {
     return populateUserDBWithTestData();
@@ -17,17 +15,17 @@ describe('user API', () => {
     test('should return users', async () => {
         const requestData = { query: { login: 'adm' } };
         const result = {
-            json: [USER],
+            json: [rawUser],
             status: 200
         };
         expect(await mockedRequestHandler(getAutoSuggestUsersController, requestData)).toEqual(result);
     });
 
     test('should return user by id', async () => {
-        const requestData = { params: { id: USER.id } };
+        const requestData = { params: { id: rawUser.id } };
 
         const result = {
-            json: USER,
+            json: rawUser,
             status: 200
         };
 
@@ -35,11 +33,11 @@ describe('user API', () => {
     });
 
     test('should update user', async () => {
-        const { json: { id } } = await mockedRequestHandler(getUserController, { params: { id: USER.id } });
+        const { json: { id } } = await mockedRequestHandler(getUserController, { params: { id: rawUser.id } });
         const requestData = { params: { id }, body: { age: '25' } };
 
         const result = {
-            json: { ...USER, age: '25' },
+            json: { ...rawUser, age: '25' },
             status: 200
         };
 
@@ -47,10 +45,10 @@ describe('user API', () => {
     });
 
     test('should delete user', async () => {
-        const requestData = { params: { id: USER.id } };
+        const requestData = { params: { id: rawUser.id } };
 
         const result = {
-            json: { ...USER, age: 25, isDeleted: true },
+            json: { ...rawUser, age: 25, isDeleted: true },
             status: 200
         };
 

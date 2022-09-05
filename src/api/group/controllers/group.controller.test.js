@@ -2,8 +2,8 @@ import { mockedRequestHandler } from '../../../lib/test-helpers.js';
 import { createGroupController, getAllGroupsController, getGroupController, updateGroupController } from './group.controller.js';
 import { PERMISSIONS } from '../constans.js';
 import { clearDBTestData, populateGroupDBWithTestData } from '../../../utils/test-helpers.js';
-import { RAW_TEST_DATA } from '../../../utils/test-data.js';
-const { GROUP, GROUP_USER } = RAW_TEST_DATA;
+import { rawGroupData } from './../../../test/fixtures/groups.js';
+const { group, groupUser } = rawGroupData;
 
 beforeAll(() => {
     return populateGroupDBWithTestData();
@@ -15,10 +15,10 @@ afterAll(() => {
 
 describe('group API', () => {
     test('should return group by id', async () => {
-        const requestData = { params: { id: GROUP.id } };
+        const requestData = { params: { id: group.id } };
 
         const result = {
-            json: { ...GROUP, permissions: GROUP.permissions.split(',') },
+            json: { ...group, permissions: group.permissions.split(',') },
             status: 200
         };
 
@@ -26,11 +26,10 @@ describe('group API', () => {
     });
 
     test('should update group by id', async () => {
-        const { id } = GROUP;
-        const requestData = { params: { id }, body: { permissions: [PERMISSIONS.SHARE] } };
+        const requestData = { params: { id: group.id }, body: { permissions: [PERMISSIONS.SHARE] } };
 
         const result = {
-            json: { ...GROUP, permissions: [PERMISSIONS.SHARE] },
+            json: { ...group, permissions: [PERMISSIONS.SHARE] },
             status: 200
         };
 
@@ -39,7 +38,7 @@ describe('group API', () => {
 
     test('should return all existed groups', async () => {
         const result = {
-            json: [{ ...GROUP_USER, permissions: [GROUP_USER.permissions] }, { ...GROUP, permissions: [PERMISSIONS.SHARE] }],
+            json: [{ ...groupUser, permissions: [groupUser.permissions] }, { ...group, permissions: [PERMISSIONS.SHARE] }],
             status: 200
         };
 

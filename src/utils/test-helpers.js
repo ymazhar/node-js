@@ -1,17 +1,18 @@
 import db from '../data-access/db.js';
-import { RAW_TEST_DATA } from './test-data.js';
-const { USER, GROUP, GROUP_USER } = RAW_TEST_DATA;
+import { rawGroupData } from './../test/fixtures/groups.js';
+import { rawUser } from './../test/fixtures/users.js';
+const { group, groupUser } = rawGroupData;
 
 export const clearDBTestData = async (name) => {
     try {
-        await db.query(`DROP DATABASE IF EXISTS ${name};`);
+        await db.query(`TRUNCATE ${name} CASCADE;`);
     } catch (e) {
         console.log(e);
     }
 };
 
 export const populateUserDBWithTestData = async () => {
-    const userQueryValues = `'${USER.id}', '${USER.login}', '${USER.password}', ${USER.age}, ${USER.isDeleted}`;
+    const userQueryValues = `'${rawUser.id}', '${rawUser.login}', '${rawUser.password}', ${rawUser.age}, ${rawUser.isDeleted}`;
     try {
         await db.query(`INSERT INTO public.users VALUES (${userQueryValues})`);
     } catch (e) {
@@ -21,8 +22,8 @@ export const populateUserDBWithTestData = async () => {
 
 export const populateGroupDBWithTestData = async () => {
     try {
-        await db.query(`INSERT INTO public.groups VALUES('${GROUP.id}', '${GROUP.name}', '{${GROUP.permissions}}')`);
-        await db.query(`INSERT INTO public.groups VALUES('${GROUP_USER.id}', '${GROUP_USER.name}', '{${GROUP_USER.permissions}}')`);
+        await db.query(`INSERT INTO public.groups VALUES('${group.id}', '${group.name}', '{${group.permissions}}')`);
+        await db.query(`INSERT INTO public.groups VALUES('${groupUser.id}', '${groupUser.name}', '{${groupUser.permissions}}')`);
     } catch (e) {
         console.log(e);
     }
