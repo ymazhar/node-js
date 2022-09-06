@@ -35,11 +35,11 @@ export class GroupExistError extends CustomError {
 }
 
 export class UserNotExistError extends CustomError {
-    constructor(message, name, statusCode, stack) {
-        super(name, statusCode, stack);
+    constructor(message) {
+        super();
         this.message = message;
         this.name = 'UserNotExistError';
-        this.statusCode = HttpStatusCode.OK;
+        this.statusCode = HttpStatusCode.NOT_FOUND;
     }
 }
 

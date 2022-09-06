@@ -25,7 +25,7 @@ export const userAutoSuggestionSchema = {
     })
 };
 
-export const userGetLoginShema = {
+export const userGetLoginSchema = {
     body: Joi.object({
         username: Joi.string().required(),
         password: Joi.string().required().alphanum()

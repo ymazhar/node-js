@@ -1,12 +1,14 @@
-export default {
-    PORT: 3000,
+import 'dotenv/config';
+
+export const config = {
+    PORT: process.env.APP_PORT || '8080',
     db: {
-        database: 'crud_db',
-        username: 'postgres',
-        password: 'password',
-        host: 'localhost',
-        dialect: 'postgres',
-        port: 5440
+        database: process.env.DB_NAME,
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        host: process.env.DB_HOST,
+        dialect: process.env.DB_DIALECT,
+        port: process.env.DB_PORT
     },
-    ACCESS_TOKEN_SECRET: 'adsfasdfwer2334rfaf4r23rfrggregrg'
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET
 };

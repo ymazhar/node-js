@@ -27,7 +27,7 @@ export async function updateUser(id, body) {
 export async function deleteUser(id) {
     const user = await UserModel.findByPk(id);
 
-    await user.set('is_deleted', true);
+    await user.set('isDeleted', true);
     await user.save();
 
     return user.toJSON();
@@ -35,6 +35,7 @@ export async function deleteUser(id) {
 
 export async function getAutoSuggestUsers(login, limit) {
     const users = await UserModel.findAndCountAll({
+        raw: true,
         where: {
             login: {
                 [Op.substring]: login

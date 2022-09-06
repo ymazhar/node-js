@@ -6,7 +6,7 @@ import {
     getAutoSuggestUsers, getTokenByUser
 } from '../service/user.service.js';
 import { asyncHandler } from '../../../lib/async-handler.js';
-import { userIdSchema, userAutoSuggestionSchema, userSchema, userGetLoginShema } from '../schema/user.schema.js';
+import { userIdSchema, userAutoSuggestionSchema, userSchema, userGetLoginSchema } from '../schema/user.schema.js';
 
 export const createUserController = asyncHandler('Create - User - Controller', userSchema, async (req) => {
     const body = req.body;
@@ -61,7 +61,7 @@ export const getAutoSuggestUsersController = asyncHandler('Get Auto Suggest - Us
     };
 });
 
-export const getToken = asyncHandler('Get Login - User - Controller', userGetLoginShema, async (req) => {
+export const getToken = asyncHandler('Get Login - User - Controller', userGetLoginSchema, async (req) => {
     const { username, password } = req.body;
     const token = await getTokenByUser(username, password);
 

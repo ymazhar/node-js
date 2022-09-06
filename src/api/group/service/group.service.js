@@ -36,6 +36,7 @@ export async function getGroup(id) {
 
 export async function getAllGroups() {
     const group = await GroupModel.findAll({
+        raw: true,
         paranoid: false
     });
 
